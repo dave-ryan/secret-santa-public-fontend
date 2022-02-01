@@ -2,6 +2,7 @@
   <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/my-list">My List</router-link> |
+    <router-link to="" @click="logIn()">Log in</router-link> |
     <router-link to="/about">About</router-link>
   </div>
   <router-view />
@@ -29,3 +30,9 @@
   color: #42b983;
 }
 </style>
+
+<script>
+export default {
+  methods: {},
+};
+</script>
