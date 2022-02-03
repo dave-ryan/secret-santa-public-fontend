@@ -33,6 +33,18 @@
 
 <script>
 export default {
-  methods: {},
+  mounted: function () {
+    this.checkIfLoggedIn();
+  },
+  methods: {
+    checkIfLoggedIn: function () {
+      console.log("jwt:", localStorage.getItem("jwt"));
+      if (localStorage.getItem("jwt")) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
 };
 </script>

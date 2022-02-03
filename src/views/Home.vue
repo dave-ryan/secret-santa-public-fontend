@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    Hello from HOME
     <div>Name: <input type="text" v-model="inputParams.name" /></div>
     <div>Password: <input type="text" v-model="inputParams.password" /></div>
     <div>
@@ -34,13 +33,21 @@ export default {
       axios.post("/sessions", this.inputParams).then((response) => {
         axios.defaults.headers.common["Authorization"] =
           "Bearer " + response.data.jwt;
+        localStorage.setItem("jwt", response.data.jwt);
+        console.log("Logged in!");
       });
     },
     getUsers: function () {
-      axios.get("http://localhost:3000/users").then((response) => {
-        this.users = response.data;
-        console.log(response, "test");
-      });
+      axios
+        .get("http://localhost:3000/users")
+        .then((response) => {
+          this.users = response.data;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error.response);
+          this.inputParams = {};
+        });
     },
   },
 };
