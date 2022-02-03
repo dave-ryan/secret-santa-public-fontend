@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     Hello from HOME
-    <div>Name: <input type="text" v-bind="inputParams.name" /></div>
-    <div>Password: <input type="text" v-bind="inputParams.password" /></div>
+    <div>Name: <input type="text" v-model="inputParams.name" /></div>
+    <div>Password: <input type="text" v-model="inputParams.password" /></div>
     <div>
       <button @click="logIn()">Log In</button>
     </div>
@@ -10,6 +10,10 @@
     <div v-for="user in users" :key="user.id">
       {{ user }}
     </div>
+
+    <p>
+      {{ inputParams }}
+    </p>
   </div>
 </template>
 
