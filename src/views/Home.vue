@@ -9,9 +9,14 @@
       </div>
     </div>
 
-    <p>
-      {{ inputParams }}
-    </p>
+    <div>
+      <div>Name: <input type="text" v-model="inputParams.name" /></div>
+      <div>Password: <input type="text" v-model="inputParams.password" /></div>
+      <div>
+        <button @click="logIn()">Log In</button>
+      </div>
+    </div>
+
     <button @click="this.$root.checkIfLoggedIn()">
       click to check for login status
     </button>
@@ -29,6 +34,15 @@ export default {
     };
   },
   methods: {
+    logIn: function () {
+      axios.post("/sessions", this.inputParams).then((response) => {
+        axios.defaults.headers.common["Authorization"] =
+          "Bearer " + response.data.jwt;
+        localStorage.setItem("jwt", response.data.jwt);
+        this.$emit("logged-in", true);
+        console.log("Logged in!");
+      });
+    },
     getUsers: function () {
       axios
         .get("http://localhost:3000/users")
