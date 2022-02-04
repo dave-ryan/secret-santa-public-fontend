@@ -2,8 +2,9 @@
   <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/my-list">My List</router-link> |
-    <router-link to="" @click="logIn()">Log in</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link v-if="checkIfLoggedIn" to="" @click="logOut()"
+      >Log Out</router-link
+    >
   </div>
   <router-view />
 </template>
@@ -33,17 +34,24 @@
 
 <script>
 export default {
-  mounted: function () {
+  data() {
+    return { loggedIn: false };
+  },
+  mounted() {
     this.checkIfLoggedIn();
   },
   methods: {
     checkIfLoggedIn: function () {
-      console.log("jwt:", localStorage.getItem("jwt"));
       if (localStorage.getItem("jwt")) {
-        return true;
+        this.loggedIn = true;
       } else {
-        return false;
+        this.loggedIn = false;
       }
+      console.log(this.loggedIn);
+    },
+    logOut: function () {
+      localStorage.removeItem("jwt");
+      console.log("logged out");
     },
   },
 };
