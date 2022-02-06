@@ -2,7 +2,8 @@
   <div id="nav" v-if="current_user">
     <router-link to="/">Home</router-link> |
     <router-link to="/my-list">My List</router-link> |
-    <router-link to="/login" @click="logOut">Log Out</router-link>
+    <router-link to="/login">Log In</router-link> |
+    <router-link to="/login" @click="logOut()">Log Out</router-link>
   </div>
   <router-view />
 </template>
@@ -42,6 +43,11 @@ export default {
     this.checkIfLoggedIn();
   },
   methods: {
+    logOut: function () {
+      delete axios.defaults.headers.common["Authorization"];
+      localStorage.removeItem("jwt");
+      this.$router.push("/login");
+    },
     checkIfLoggedIn: function () {
       console.log("jwt:", localStorage.getItem("jwt"));
       if (localStorage.getItem("jwt")) {
