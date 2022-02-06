@@ -1,9 +1,8 @@
 <template>
-  <div id="nav">
+  <div id="nav" v-if="current_user">
     <router-link to="/">Home</router-link> |
     <router-link to="/my-list">My List</router-link> |
-    <router-link to="" @click="logIn()">Log in</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/login" @click="logOut">Log Out</router-link>
   </div>
   <router-view />
 </template>
@@ -32,7 +31,13 @@
 </style>
 
 <script>
+import axios from "axios";
 export default {
+  data() {
+    return {
+      current_user: null,
+    };
+  },
   mounted: function () {
     this.checkIfLoggedIn();
   },
@@ -40,9 +45,12 @@ export default {
     checkIfLoggedIn: function () {
       console.log("jwt:", localStorage.getItem("jwt"));
       if (localStorage.getItem("jwt")) {
-        return true;
+        axios.get("/users/1", "jwt").then((response) => {
+          console.log(response.data);
+          this.current_user = response.data;
+        });
       } else {
-        return false;
+        this.$router.push("/login");
       }
     },
   },
