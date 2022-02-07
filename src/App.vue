@@ -1,11 +1,11 @@
 <template>
-  <div id="nav" v-if="current_user">
+  <div id="nav" v-if="loginStatus">
     <router-link to="/">Home</router-link> |
     <router-link to="/my-list">My List</router-link> |
-    <router-link to="/login">Log In</router-link> |
     <router-link to="/login" @click="logOut()">Log Out</router-link>
   </div>
-  <router-view />
+
+  <router-view @updateParent="updateLogin"></router-view>
 </template>
 
 <style>
@@ -36,28 +36,36 @@ import axios from "axios";
 export default {
   data() {
     return {
-      current_user: null,
+      loginStatus: false,
     };
   },
+  // computed: {
+  //   checkIfLoggedIn: function () {
+  //     if (this.loginStatus) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   },
+  // },
   mounted: function () {
-    this.checkIfLoggedIn();
+    if (localStorage.getItem("jwt")) {
+      this.loginStatus = true;
+      console.log("status is true");
+    } else {
+      this.loginStatus = false;
+      console.log("status is false");
+    }
   },
   methods: {
     logOut: function () {
       delete axios.defaults.headers.common["Authorization"];
       localStorage.removeItem("jwt");
       this.$router.push("/login");
+      this.loginStatus = false;
     },
-    checkIfLoggedIn: function () {
-      console.log("jwt:", localStorage.getItem("jwt"));
-      if (localStorage.getItem("jwt")) {
-        axios.get("/users/1", "jwt").then((response) => {
-          console.log(response.data);
-          this.current_user = response.data;
-        });
-      } else {
-        this.$router.push("/login");
-      }
+    updateLogin: function (value) {
+      this.loginStatus = value;
     },
   },
 };
