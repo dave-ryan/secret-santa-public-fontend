@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div id="login">
+    <h2>Griffith</h2>
     <div>Name: <input type="text" v-model="inputParams.name" /></div>
     <div>Password: <input type="text" v-model="inputParams.password" /></div>
     <div>
@@ -24,6 +25,7 @@ export default {
         localStorage.setItem("jwt", response.data.jwt);
         console.log("Logged in!");
         this.$router.push("/");
+        this.$emit("updateParent", true);
       });
     },
   },
