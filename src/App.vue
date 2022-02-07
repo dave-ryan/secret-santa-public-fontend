@@ -39,15 +39,6 @@ export default {
       loginStatus: false,
     };
   },
-  // computed: {
-  //   checkIfLoggedIn: function () {
-  //     if (this.loginStatus) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   },
-  // },
   mounted: function () {
     if (localStorage.getItem("jwt")) {
       this.loginStatus = true;
