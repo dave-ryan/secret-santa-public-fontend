@@ -6,6 +6,8 @@
         <br />
         {{ item.name }} <br />
         Link: {{ item.link }}
+        <button @click="editItem(item)">Edit</button>
+        <button @click="deleteItem(item)">Delete</button>
       </div>
     </div>
   </div>
@@ -16,7 +18,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      myList: {},
+      myList: [],
+      newitem: [],
     };
   },
   mounted() {
@@ -32,6 +35,16 @@ export default {
         .catch((errors) => {
           console.log(errors);
         });
+    },
+    editItem: function (item) {
+      console.log(item);
+    },
+    deleteItem: function (item) {
+      console.log(item);
+      axios.delete(`/wishedgifts/${item.id}`).then((response) => {
+        console.log(response.data);
+        this.myList.splice(this.myList.indexOf(item), 1);
+      });
     },
   },
 };
