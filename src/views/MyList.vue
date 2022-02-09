@@ -7,26 +7,28 @@
 
         <div>{{ item.name }}</div>
         <div v-if="item.link">Link: {{ item.link }}</div>
-        <button @click="editItem(item)">Edit</button>
-        <button @click="deleteItem(item)">Delete</button>
+        <button class="btn btn-secondary" @click="editItem(item)">Edit</button>
+        <button class="btn btn-danger" @click="deleteItem(item)">Delete</button>
       </div>
     </div>
     <br />
     <hr />
     <br />
-    <div>
+
+    <form>
       New item for your Christmas List!
-      <div>
-        Name/description of item<input type="text" v-model="newItem.name" />
+      <div class="input-group mb-3">
+        <span class="input-group-text">Name/description of item</span>
+        <input type="text" v-model="newItem.name" class="form-control" />
       </div>
-      <div>
-        Online shopping link (optional!)<input
-          type="text"
-          v-model="newItem.link"
-        />
+      <div class="input-group mb-3">
+        <span class="input-group-text"> Online shopping link (optional!) </span>
+        <input type="text" v-model="newItem.link" class="form-control" />
       </div>
-    </div>
-    <button @click="createItem(newItem)">Add this to your list</button>
+      <button class="btn btn-primary" @click="createItem">
+        Add this to your list
+      </button>
+    </form>
   </div>
 </template>
 
@@ -63,12 +65,19 @@ export default {
         this.myList.splice(this.myList.indexOf(item), 1);
       });
     },
-    createItem: function (item) {
-      axios.post("/wishedgifts", item).then((response) => {
-        console.log(response.data);
-        this.myList.push(item);
-        this.newItem = {};
-      });
+    createItem: function (e) {
+      e.preventDefault();
+
+      if (this.newItem.name === undefined) {
+        console.log("NO!");
+      } else {
+        console.log(this.newItem.name);
+        axios.post("/wishedgifts", this.newItem).then((response) => {
+          console.log(response.data);
+          this.myList.push(this.newItem);
+          this.newItem = {};
+        });
+      }
     },
   },
 };
