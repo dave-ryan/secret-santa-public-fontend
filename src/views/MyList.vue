@@ -4,12 +4,29 @@
       Here's your Christmas List!
       <div v-for="item in myList" :key="item.id">
         <br />
-        {{ item.name }} <br />
-        Link: {{ item.link }}
+
+        <div>{{ item.name }}</div>
+        <div v-if="item.link">Link: {{ item.link }}</div>
         <button @click="editItem(item)">Edit</button>
         <button @click="deleteItem(item)">Delete</button>
       </div>
     </div>
+    <br />
+    <hr />
+    <br />
+    <div>
+      New item for your Christmas List!
+      <div>
+        Name/description of item<input type="text" v-model="newItem.name" />
+      </div>
+      <div>
+        Online shopping link (optional!)<input
+          type="text"
+          v-model="newItem.link"
+        />
+      </div>
+    </div>
+    <button @click="createItem(newItem)">Add this to your list</button>
   </div>
 </template>
 
@@ -19,7 +36,7 @@ export default {
   data() {
     return {
       myList: [],
-      newitem: [],
+      newItem: {},
     };
   },
   mounted() {
@@ -44,6 +61,13 @@ export default {
       axios.delete(`/wishedgifts/${item.id}`).then((response) => {
         console.log(response.data);
         this.myList.splice(this.myList.indexOf(item), 1);
+      });
+    },
+    createItem: function (item) {
+      axios.post("/wishedgifts", item).then((response) => {
+        console.log(response.data);
+        this.myList.push(item);
+        this.newItem = {};
       });
     },
   },
