@@ -39,13 +39,14 @@ export default {
       loginStatus: false,
     };
   },
-  mounted: function () {
+  created: function () {
     if (localStorage.getItem("jwt")) {
       this.loginStatus = true;
       console.log("status is true");
     } else {
       this.loginStatus = false;
       console.log("status is false");
+      this.$router.push("/login");
     }
   },
   methods: {
