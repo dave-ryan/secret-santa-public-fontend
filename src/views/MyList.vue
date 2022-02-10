@@ -14,7 +14,6 @@
     <br />
     <hr />
     <br />
-
     <form>
       New item for your Christmas List!
       <div class="input-group mb-3">
@@ -25,7 +24,11 @@
         <span class="input-group-text"> Online shopping link (optional!) </span>
         <input type="text" v-model="newItem.link" class="form-control" />
       </div>
-      <button class="btn btn-primary" @click="createItem">
+      <button
+        class="btn btn-primary"
+        :disabled="isDisabled"
+        @click="createItem"
+      >
         Add this to your list
       </button>
     </form>
@@ -40,6 +43,15 @@ export default {
       myList: [],
       newItem: {},
     };
+  },
+  computed: {
+    isDisabled: function () {
+      if (!this.newItem.name || this.newItem.name == "") {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   mounted() {
     this.getMyList();
