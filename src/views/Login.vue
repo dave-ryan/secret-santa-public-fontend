@@ -1,13 +1,26 @@
 <template>
-  <div id="login">
-    <h2>Griffith</h2>
-    <div>Name: <input type="text" v-model="inputParams.name" /></div>
-    <div>Password: <input type="text" v-model="inputParams.password" /></div>
-    <div>
-      <button @click="logIn()">Log In</button>
+  <div class="container">
+    <div class="d-flex align-items-center vh-100 justify-content-center">
+      <form @submit.prevent="logIn">
+        <h2>Griffith</h2>
+
+        <div>Name: <input type="text" v-model="inputParams.name" /></div>
+        <div>
+          Password: <input type="text" v-model="inputParams.password" />
+        </div>
+        <div>
+          <button class="btn btn-success" type="submit">Log In</button>
+        </div>
+      </form>
     </div>
   </div>
 </template>
+
+<style scoped>
+.container {
+  text-align: center;
+}
+</style>
 
 <script>
 import axios from "axios";
