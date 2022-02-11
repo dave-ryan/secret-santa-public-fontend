@@ -1,14 +1,22 @@
 <template>
   <div class="home">
-    <!-- <button @click="getUsers()">CLICK</button> -->
     Your family:
     <div v-for="user in family" :key="user.id">
       {{ user }}
+      <button @click="findChristmasList(user)">load christmas list</button>
+
+      <div v-for="item in christmasLists[`${user.id}`]" :key="item.id">
+        {{ item.name }}
+      </div>
     </div>
 
     Your secret santa:
     <div>
       {{ secretSanta }}
+      <button @click="findChristmasList(secretSanta)">
+        load christmas list
+      </button>
+      {{ christmasLists[`${secretSanta.id}`] }}
     </div>
   </div>
 </template>
@@ -20,6 +28,7 @@ export default {
     return {
       family: {},
       secretSanta: {},
+      christmasLists: { 2: [] },
     };
   },
   created: function () {
@@ -38,6 +47,12 @@ export default {
           console.log(error.response);
           this.inputParams = {};
         });
+    },
+    findChristmasList: function (user) {
+      axios.get(`/users/${user.id}/christmaslist`).then((response) => {
+        console.log(response.data);
+        this.christmasLists[user.id] = response.data;
+      });
     },
     getSecretSanta: function () {
       axios
