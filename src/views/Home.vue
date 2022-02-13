@@ -1,24 +1,19 @@
 <template>
   <div class="home">
-    <div class="collapse" id="collapseExample">this is a test</div>
-    <button data-bs-toggle="collapse" data-bs-target="#collapseExample">
-      ddddd
-    </button>
     Your family:
     <div v-for="user in family" :key="user.id">
       <br />
-      {{ user }}
       <button
-        class="btn btn-outline-success btn-sm"
+        class="btn btn-outline-success"
         data-bs-toggle="collapse"
         :data-bs-target="`#christmas-list-${user.id}`"
       >
-        load christmas list
+        {{ user.name }}
       </button>
 
       <div
         class="collapse"
-        aria-expanded="true"
+        aria-expanded="false"
         :id="`christmas-list-${user.id}`"
       >
         <div v-for="item in christmasLists[`${user.id}`]" :key="item.id">
@@ -30,11 +25,19 @@
 
     Your secret santa:
     <div>
-      {{ secretSanta }}
-      <button class="btn btn-outline-success btn-sm">
-        load christmas list
+      <button
+        class="btn btn-outline-success"
+        data-bs-toggle="collapse"
+        data-bs-target="#christmas-list-ss"
+      >
+        {{ secretSanta.name }}
       </button>
-      {{ christmasLists[`${secretSanta.id}`] }}
+      <div class="collapse" aria-expanded="false" id="christmas-list-ss">
+        <div v-for="item in christmasLists[`${secretSanta.id}`]" :key="item.id">
+          {{ item.name }}
+        </div>
+        (sample item)
+      </div>
     </div>
   </div>
 </template>
