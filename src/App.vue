@@ -1,6 +1,6 @@
 <template>
-  <div id="nav" v-if="loginStatus">
-    <h2>Griffith</h2>
+  <div class="navbar navbar-expand-lg navbar-light bg-light" v-if="loginStatus">
+    <a href="#" class="navbar-brand">Griffith</a>
 
     <router-link to="/">Home</router-link> |
     <router-link to="/my-list">My List</router-link> |
@@ -10,6 +10,9 @@
 </template>
 
 <style>
+.container {
+  text-align: center;
+}
 </style>
 
 <script>

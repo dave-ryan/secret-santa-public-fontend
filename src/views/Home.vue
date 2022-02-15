@@ -1,46 +1,61 @@
 <template>
-  <div class="home">
-    Your family:
-    <div v-for="user in family" :key="user.id">
-      <br />
-      <button
-        class="btn btn-outline-success"
-        data-bs-toggle="collapse"
-        :data-bs-target="`#christmas-list-${user.id}`"
-      >
-        {{ user.name }}
-      </button>
+  <div class="container" id="home">
+    <div class="col-12 align-items-center vh-100">
+      <div class="row">
+        <div class="col-12">
+          Your family:
+          <div v-for="user in family" :key="user.id">
+            <br />
+            <button
+              class="btn btn-outline-success"
+              data-bs-toggle="collapse"
+              :data-bs-target="`#christmas-list-${user.id}`"
+            >
+              {{ user.name }}
+            </button>
 
-      <div
-        class="collapse"
-        aria-expanded="false"
-        :id="`christmas-list-${user.id}`"
-      >
-        <div v-for="item in christmasLists[`${user.id}`]" :key="item.id">
-          {{ item.name }}
+            <div
+              class="collapse"
+              aria-expanded="false"
+              :id="`christmas-list-${user.id}`"
+            >
+              <div v-for="item in christmasLists[`${user.id}`]" :key="item.id">
+                {{ item.name }}
+              </div>
+              (sample item)
+            </div>
+          </div>
         </div>
-        (sample item)
       </div>
-    </div>
 
-    Your secret santa:
-    <div>
-      <button
-        class="btn btn-outline-success"
-        data-bs-toggle="collapse"
-        data-bs-target="#christmas-list-ss"
-      >
-        {{ secretSanta.name }}
-      </button>
-      <div class="collapse" aria-expanded="false" id="christmas-list-ss">
-        <div v-for="item in christmasLists[`${secretSanta.id}`]" :key="item.id">
-          {{ item.name }}
+      <div class="row">
+        <div class="col-12">
+          <hr />
+          Your secret santa:
+          <br />
+          <button
+            class="btn btn-outline-success"
+            data-bs-toggle="collapse"
+            data-bs-target="#christmas-list-ss"
+          >
+            {{ secretSanta.name }}
+          </button>
+          <div class="collapse" aria-expanded="false" id="christmas-list-ss">
+            <div
+              v-for="item in christmasLists[`${secretSanta.id}`]"
+              :key="item.id"
+            >
+              {{ item.name }}
+            </div>
+            (sample item)
+          </div>
         </div>
-        (sample item)
       </div>
     </div>
   </div>
 </template>
+
+
 
 <script>
 import axios from "axios";
