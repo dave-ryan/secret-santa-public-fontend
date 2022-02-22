@@ -1,14 +1,44 @@
 <template>
   <div class="container">
     <div class="d-flex align-items-center vh-100 justify-content-center">
-      <form @submit.prevent="logIn">
-        <fieldset id="loginForm">
+      <form @submit.prevent="logIn" id="loginForm" novalidate>
+        <fieldset id="loginFieldset">
           <h2>Griffith</h2>
 
-          <div>Name: <input type="text" v-model="inputParams.name" /></div>
-          <div>
-            Password: <input type="text" v-model="inputParams.password" />
+          <div class="row g-3 align-items-center mb-2">
+            <div class="col-auto">
+              <label class="form-label" for="name-input">First Name</label>
+            </div>
+            <div class="col-auto">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="name-input"
+                v-model="inputParams.name"
+                required
+              />
+              <div class="invalid-feedback">Please enter your first name</div>
+            </div>
           </div>
+
+          <div class="row g-3 align-items-center mb-2">
+            <div class="col-auto">
+              <label class="form-label" for="password-input">Pasword</label>
+            </div>
+            <div class="col-auto">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="password-input"
+                v-model="inputParams.password"
+                required
+              />
+              <div class="invalid-feedback">
+                Please enter your password (last name)
+              </div>
+            </div>
+          </div>
+
           <div>
             <button class="btn btn-success" type="submit">
               {{ buttonName }}
@@ -40,35 +70,53 @@ export default {
       inputParams: {},
       errors: null,
       buttonName: "Log In",
-      form: null,
+      fieldset: null,
     };
   },
   methods: {
     logIn: function () {
-      this.toggleLoading();
-      axios
-        .post("/sessions", this.inputParams)
-        .then((response) => {
-          axios.defaults.headers.common["Authorization"] =
-            "Bearer " + response.data.jwt;
-          localStorage.setItem("jwt", response.data.jwt);
-          console.log("Logged in!");
-          this.$router.push("/");
-          this.$emit("updateParent", true);
-        })
-        .catch((errors) => {
-          console.log(errors);
-          this.errors = errors;
-          this.form.removeAttribute("disabled");
-          this.buttonName = "Log In";
-        });
+      this.fieldset = document.getElementById("loginFieldset");
+      document.getElementById("loginForm").classList.add("was-validated");
+
+      if (this.checkForms()) {
+        this.toggleLoading();
+        axios
+          .post("/sessions", this.inputParams)
+          .then((response) => {
+            axios.defaults.headers.common["Authorization"] =
+              "Bearer " + response.data.jwt;
+            localStorage.setItem("jwt", response.data.jwt);
+            console.log("Logged in!");
+            this.$router.push("/");
+            this.$emit("updateParent", true);
+          })
+          .catch((errors) => {
+            console.log("errors", errors);
+            document
+              .getElementById("loginForm")
+              .classList.remove("was-validated");
+            this.errors = errors;
+            this.fieldset.removeAttribute("disabled");
+            this.buttonName = "Log In";
+          });
+      }
     },
     toggleLoading: function () {
       this.errors = null;
-      this.form = document.getElementById("loginForm");
-      this.form.setAttribute("disabled", "");
+      this.fieldset.setAttribute("disabled", "");
       this.buttonName = "Loading...";
-      console.log("validating..", this.form);
+    },
+    checkForms: function () {
+      if (
+        this.inputParams["name"] &&
+        this.inputParams["name"].length > 0 &&
+        this.inputParams["password"] &&
+        this.inputParams["password"].length > 0
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 };
