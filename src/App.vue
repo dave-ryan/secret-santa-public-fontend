@@ -1,11 +1,36 @@
 <template>
-  <div class="navbar navbar-expand-lg navbar-light bg-light" v-if="loginStatus">
-    <a href="#" class="navbar-brand">Griffith</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" v-if="loginStatus">
+    <div class="container-fluid">
+      <a href="#" class="navbar-brand">Griffith</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <router-link to="/">Home</router-link> |
-    <router-link to="/my-list">My List</router-link> |
-    <router-link to="/login" @click="logOut()">Log Out</router-link>
-  </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <router-link class="nav-link" to="/">Home</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/my-list">My List</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/login" @click="logOut()"
+              >Log Out</router-link
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
   <router-view @updateParent="updateLogin"></router-view>
 </template>
 
