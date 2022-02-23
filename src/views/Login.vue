@@ -5,7 +5,7 @@
         <fieldset id="loginFieldset">
           <h2>Griffith</h2>
 
-          <div class="row g-3 align-items-center mb-2">
+          <div class="row g-3 align-items-center mb-2 mt-2">
             <div class="col-auto">
               <label class="form-label" for="name-input">First Name</label>
             </div>
