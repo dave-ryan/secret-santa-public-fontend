@@ -35,7 +35,7 @@
       </table>
     </div>
     <hr />
-    <form class="mt-5">
+    <form @submit.prevent="createItem" class="mt-5">
       New item for your Christmas List!
       <div class="input-group mb-3">
         <span class="input-group-text">Name/description of item</span>
@@ -107,7 +107,7 @@ export default {
         console.log(this.newItem.name);
         axios.post("/wishedgifts", this.newItem).then((response) => {
           console.log(response.data);
-          this.myList.push(this.newItem);
+          this.myList.push(response.data);
           this.newItem = {};
         });
       }
