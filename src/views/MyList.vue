@@ -114,6 +114,13 @@ export default {
             .getElementById("newItemForm")
             .classList.remove("was-validated");
         });
+
+        setTimeout(() => {
+          window.scrollTo(
+            0,
+            document.body.scrollHeight || document.documentElement.scrollHeight
+          );
+        }, 400);
       }
     },
     checkForms: function () {
