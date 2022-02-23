@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <div class="mb-5">
-      <h2>Your Christmas List</h2>
+      <h2 class="mt-2 mb-5">Your Christmas List</h2>
 
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-responsive">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -12,11 +12,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in myList" :key="item.id">
-            <th scope="row">{{ item.id }}</th>
-            <td>{{ item.name }}</td>
-            <td>
-              <a :href="`https://` + item.link" alt="" target="_blank">{{
+          <tr v-for="(item, index) in myList" :key="item.id">
+            <th scope="row">{{ index + 1 }}</th>
+            <td class="text-truncate" style="max-width: 150px">
+              {{ item.name }}
+            </td>
+            <td class="text-truncate" style="max-width: 150px">
+              <a :href="`//` + item.link" alt="" target="_blank">{{
                 item.link
               }}</a>
             </td>
