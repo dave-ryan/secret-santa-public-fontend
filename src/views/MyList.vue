@@ -35,21 +35,28 @@
       </table>
     </div>
     <hr />
-    <form @submit.prevent="createItem" class="mt-5">
-      New item for your Christmas List!
+    <form
+      @submit.prevent="createItem"
+      id="newItemForm"
+      class="mt-5 mb-4"
+      novalidate
+    >
+      <h5 class="mb-3">New item for your Christmas List:</h5>
       <div class="input-group mb-3">
         <span class="input-group-text">Name/description of item</span>
-        <input type="text" v-model="newItem.name" class="form-control" />
+        <input
+          type="text"
+          v-model="newItem.name"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">What do you want for Christmas?</div>
       </div>
       <div class="input-group mb-3">
         <span class="input-group-text"> Online shopping link (optional) </span>
         <input type="text" v-model="newItem.link" class="form-control" />
       </div>
-      <button
-        class="btn btn-primary"
-        :disabled="isDisabled"
-        @click="createItem"
-      >
+      <button class="btn btn-success" type="submit">
         Add this to your list
       </button>
     </form>
@@ -92,24 +99,28 @@ export default {
       console.log(item);
     },
     deleteItem: function (item) {
-      console.log(item);
       axios.delete(`/wishedgifts/${item.id}`).then((response) => {
         console.log(response.data);
         this.myList.splice(this.myList.indexOf(item), 1);
       });
     },
-    createItem: function (e) {
-      e.preventDefault();
-
-      if (this.newItem.name === undefined) {
-        console.log("NO!");
-      } else {
-        console.log(this.newItem.name);
+    createItem: function () {
+      document.getElementById("newItemForm").classList.add("was-validated");
+      if (this.checkForms()) {
         axios.post("/wishedgifts", this.newItem).then((response) => {
-          console.log(response.data);
           this.myList.push(response.data);
           this.newItem = {};
+          document
+            .getElementById("newItemForm")
+            .classList.remove("was-validated");
         });
+      }
+    },
+    checkForms: function () {
+      if (this.newItem["name"] && this.newItem["name"].length > 0) {
+        return true;
+      } else {
+        return false;
       }
     },
   },
