@@ -1,27 +1,46 @@
 <template>
-  <div>
-    <div>
-      Here's your Christmas List!
-      <div v-for="item in myList" :key="item.id">
-        <br />
+  <div class="container">
+    <div class="mb-5">
+      <h2>Your Christmas List</h2>
 
-        <div>{{ item.name }}</div>
-        <div v-if="item.link">Link: {{ item.link }}</div>
-        <button class="btn btn-secondary" @click="editItem(item)">Edit</button>
-        <button class="btn btn-danger" @click="deleteItem(item)">Delete</button>
-      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Wished gift</th>
+            <th scope="col">Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in myList" :key="item.id">
+            <th scope="row">{{ item.id }}</th>
+            <td>{{ item.name }}</td>
+            <td>
+              <a :href="`https://` + item.link" alt="" target="_blank">{{
+                item.link
+              }}</a>
+            </td>
+            <td>
+              <button class="btn btn-outline-success" @click="editItem(item)">
+                Edit
+              </button>
+              <button class="btn btn-outline-danger" @click="deleteItem(item)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <br />
     <hr />
-    <br />
-    <form>
+    <form class="mt-5">
       New item for your Christmas List!
       <div class="input-group mb-3">
         <span class="input-group-text">Name/description of item</span>
         <input type="text" v-model="newItem.name" class="form-control" />
       </div>
       <div class="input-group mb-3">
-        <span class="input-group-text"> Online shopping link (optional!) </span>
+        <span class="input-group-text"> Online shopping link (optional) </span>
         <input type="text" v-model="newItem.link" class="form-control" />
       </div>
       <button
