@@ -20,7 +20,15 @@
               :id="`christmas-list-${user.id}`"
             >
               <div v-for="item in christmasLists[`${user.id}`]" :key="item.id">
-                {{ item.name }}
+                <div v-if="item.purchaser_id">
+                  <span class="text-decoration-line-through">{{
+                    item.name
+                  }}</span>
+                  <span style="color: red">
+                    (bought by: {{ item.purchaser.name }})</span
+                  >
+                </div>
+                <span v-else>{{ item.name }}</span>
               </div>
               (sample item)
             </div>
