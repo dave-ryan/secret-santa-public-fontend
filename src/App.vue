@@ -22,13 +22,13 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/my-list">My List</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/login" @click="logOut()"
-              >Log Out</router-link
-            >
-          </li>
         </ul>
       </div>
+      <span class="nav-item">
+        <router-link class="nav-link" to="/logout" @click="logOut()"
+          >Log Out</router-link
+        >
+      </span>
     </div>
   </nav>
   <router-view @updateParent="updateLogin"></router-view>
