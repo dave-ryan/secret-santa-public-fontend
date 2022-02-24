@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light" v-if="loginStatus">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" v-if="loginStatus">
     <div class="container-fluid">
       <a href="#" class="navbar-brand">Griffith</a>
       <button
@@ -16,22 +16,23 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
-          <li class="nav-item">
+          <li>
             <router-link class="nav-link" to="/">Home</router-link>
           </li>
-          <li class="nav-item">
+          <li>
             <router-link class="nav-link" to="/my-list">My List</router-link>
           </li>
         </ul>
       </div>
+      <span class="nav-link disabled"> Logged in as {{ currentUser }} </span>
       <span class="nav-item">
-        <router-link class="nav-link" to="/logout" @click="logOut()"
+        <router-link class="nav-link" to="" @click="logOut()"
           >Log Out</router-link
         >
       </span>
     </div>
   </nav>
-  <router-view @updateParent="updateLogin"></router-view>
+  <router-view @updateLoginStatus="updateLogin"></router-view>
 </template>
 
 <style>
@@ -46,6 +47,7 @@ export default {
   data() {
     return {
       loginStatus: false,
+      currentUser: "...",
     };
   },
   created: function () {
@@ -56,6 +58,9 @@ export default {
       this.loginStatus = false;
       console.log("status is false");
       this.$router.push("/login");
+    }
+    if (localStorage.santa) {
+      this.currentUser = localStorage.santa;
     }
   },
   methods: {
