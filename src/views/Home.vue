@@ -93,7 +93,6 @@ export default {
           console.log(family.data);
           family.data.forEach((user) => {
             axios.get(`/users/${user.id}/christmaslist`).then((response) => {
-              console.log("this is the response", user, response.data);
               this.christmasLists[`${user.id}`] = response.data;
             });
           });
@@ -114,7 +113,6 @@ export default {
         .get("/users/secretsanta")
         .then((response) => {
           this.secretSanta = response.data;
-          console.log(response.data);
         })
         .catch((error) => {
           console.log(error.response);

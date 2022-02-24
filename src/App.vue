@@ -24,7 +24,7 @@
           </li>
         </ul>
       </div>
-      <span class="nav-link disabled"> Logged in as {{ currentUser }} </span>
+      <span class="nav-link disabled"> Logged in as {{ user_name }} </span>
       <span class="nav-item">
         <router-link class="nav-link" to="" @click="logOut()"
           >Log Out</router-link
@@ -47,7 +47,8 @@ export default {
   data() {
     return {
       loginStatus: false,
-      currentUser: "...",
+      user_name: "...",
+      user_id: null,
     };
   },
   created: function () {
@@ -59,8 +60,10 @@ export default {
       console.log("status is false");
       this.$router.push("/login");
     }
-    if (localStorage.santa) {
-      this.currentUser = localStorage.santa;
+    if (localStorage.user_id && localStorage.user_name) {
+      this.user_name = localStorage.user_name;
+      this.user_id = localStorage.user_id;
+      console.log("santa", this.user_name, this.user_id);
     }
   },
   methods: {

@@ -88,7 +88,8 @@ export default {
             axios.defaults.headers.common["Authorization"] =
               "Bearer " + response.data.jwt;
             localStorage.setItem("jwt", response.data.jwt);
-            localStorage.setItem("santa", response.data.user.name);
+            localStorage.setItem("user_name", response.data.user_name);
+            localStorage.setItem("user_id", response.data.user_id);
             this.$emit("updateLoginStatus", true);
             this.$router.push("/");
           })
