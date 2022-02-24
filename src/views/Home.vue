@@ -24,12 +24,28 @@
                 <div
                   v-if="item.purchaser_id && item.purchaser_id != this.user_id"
                 >
-                  <span class="text-decoration-line-through">{{
-                    item.name
-                  }}</span>
-                  <span style="color: red">
-                    (bought by: {{ item.purchaser.name }})</span
-                  >
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      checked
+                      :id="`checkbox-` + item.id"
+                      disabled
+                    />
+                    <i class="bi bi-x"></i>
+
+                    <label
+                      class="form-check-label"
+                      :for="`checkbox-` + item.id"
+                      :id="`label-` + item.id"
+                    >
+                      {{ item.name }}
+                    </label>
+                    <span style="color: red">
+                      (purchased by {{ item.purchaser.name }})</span
+                    >
+                  </div>
                 </div>
                 <div
                   v-else-if="
@@ -42,10 +58,13 @@
                       type="checkbox"
                       value=""
                       checked
+                      @click="toggleCheckBox(item)"
+                      :id="`checkbox-` + item.id"
                     />
                     <label
-                      class="form-check-label text-decoration-line-through"
-                      for="flexCheckDefault"
+                      class="form-check-label"
+                      :for="`checkbox-` + item.id"
+                      :id="`label-` + item.id"
                     >
                       {{ item.name }}
                     </label>
@@ -54,8 +73,18 @@
                 </div>
                 <div v-else>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" value="" />
-                    <label class="form-check-label" for="flexCheckDefault">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      @click="toggleCheckBox(item)"
+                      :id="`checkbox-` + item.id"
+                    />
+                    <label
+                      class="form-check-label"
+                      :for="`checkbox-` + item.id"
+                      :id="`label-` + item.id"
+                    >
                       {{ item.name }}
                     </label>
                   </div>
@@ -101,7 +130,7 @@ export default {
       family: {},
       secretSanta: {},
       christmasLists: {},
-      user_id: 111,
+      user_id: null,
     };
   },
   created: function () {
@@ -109,6 +138,35 @@ export default {
     this.getSecretSanta();
   },
   methods: {
+    toggleCheckBox: function (item) {
+      if (item.purchaser_id) {
+        console.log("unchecked item, no longer purchasing it");
+        item.purchaser_id = null;
+
+        axios
+          .patch(`/wishedgifts/${item.id}`, { purchaser_id: null })
+          .then((response) => {
+            console.log("response to removing purchaser", response);
+          });
+        document
+          .getElementById(`label-${item.id}`)
+          .classList.remove("text-decoration-line-through");
+
+        console.log(item);
+      } else {
+        console.log("checked item, it should be crossed off");
+        item.purchaser_id = this.user_id;
+
+        axios
+          .patch(`/wishedgifts/${item.id}`, { purchaser_id: this.user_id })
+          .then((response) => {
+            console.log("response to removing purchaser", response);
+          });
+        document
+          .getElementById(`label-${item.id}`)
+          .classList.add("text-decoration-line-through");
+      }
+    },
     getUsers: function () {
       this.user_id = localStorage.getItem("user_id");
       axios
