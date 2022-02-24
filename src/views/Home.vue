@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <div class="row">
       <div class="col-12">
         Your family:
@@ -21,13 +21,36 @@
               (sample item)
 
               <div v-for="item in christmasLists[`${user.id}`]" :key="item.id">
-                <div v-if="item.purchaser_id">
+                <div
+                  v-if="item.purchaser_id && item.purchaser_id != this.user_id"
+                >
                   <span class="text-decoration-line-through">{{
                     item.name
                   }}</span>
                   <span style="color: red">
                     (bought by: {{ item.purchaser.name }})</span
                   >
+                </div>
+                <div
+                  v-else-if="
+                    item.purchaser_id && item.purchaser_id == this.user_id
+                  "
+                >
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      checked
+                    />
+                    <label
+                      class="form-check-label text-decoration-line-through"
+                      for="flexCheckDefault"
+                    >
+                      {{ item.name }}
+                    </label>
+                    <span style="color: green"> Purchased by you!</span>
+                  </div>
                 </div>
                 <div v-else>
                   <div class="form-check form-check-inline">
@@ -78,6 +101,7 @@ export default {
       family: {},
       secretSanta: {},
       christmasLists: {},
+      user_id: 111,
     };
   },
   created: function () {
@@ -86,6 +110,7 @@ export default {
   },
   methods: {
     getUsers: function () {
+      this.user_id = localStorage.getItem("user_id");
       axios
         .get("/users")
         .then((family) => {
