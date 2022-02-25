@@ -16,8 +16,8 @@
             <i
               class="bi bi-check-lg"
               v-if="
-                this.christmasLists[`${user.id}`] &&
-                this.christmasLists[`${user.id}`].some(
+                user.wishedgifts &&
+                user.wishedgifts.some(
                   (item) => item.purchaser_id == this.user_id
                 )
               "
@@ -27,9 +27,12 @@
               aria-expanded="false"
               :id="`christmas-list-${user.id}`"
             >
-              (sample item)
+              <span v-if="user.wishedgifts.length < 1"
+                >this person hasn't made their christmas list yet! remind them!
+                :)</span
+              >
 
-              <div v-for="item in christmasLists[`${user.id}`]" :key="item.id">
+              <div v-for="item in user.wishedgifts" :key="item.id">
                 <div
                   v-if="item.purchaser_id && item.purchaser_id != this.user_id"
                 >
@@ -107,8 +110,7 @@
     <div class="row">
       <div class="col-12">
         <hr />
-        Your secret santa:
-        <br />
+        <div class="mt-3 mb-4">Your secret santa:</div>
         <button
           class="btn btn-outline-success"
           data-bs-toggle="collapse"
@@ -117,13 +119,13 @@
           {{ secretSanta.name }}
         </button>
         <div class="collapse" aria-expanded="false" id="christmas-list-ss">
-          <div
-            v-for="item in christmasLists[`${secretSanta.id}`]"
-            :key="item.id"
+          <span v-if="secretSanta.wishedgifts.length === 0"
+            >this person hasn't made their christmas list yet! remind them!
+            :)</span
           >
+          <div v-for="item in secretSanta.wishedgifts" :key="item.id">
             {{ item.name }}
           </div>
-          (sample item)
         </div>
       </div>
     </div>
@@ -141,8 +143,8 @@ import axios from "axios";
 export default {
   data: function () {
     return {
-      family: {},
-      secretSanta: {},
+      family: [],
+      secretSanta: { wishedgifts: [] },
       christmasLists: {},
       user_id: null,
     };
@@ -185,24 +187,19 @@ export default {
       this.user_id = localStorage.getItem("user_id");
       axios
         .get("/users")
-        .then((family) => {
-          this.family = family.data;
-          console.log(family.data);
-          family.data.forEach((user) => {
-            axios.get(`/users/${user.id}/christmaslist`).then((response) => {
-              this.christmasLists[`${user.id}`] = response.data;
-            });
-          });
+        .then((response) => {
+          this.family = response.data;
+          console.log("family data: ", this.family);
+          console.log("test", this.family[2], this.family[2].wishedgifts);
         })
         .catch((error) => {
           console.log(error.response);
-          this.inputParams = {};
         });
-      console.log("christmasLists", this.christmasLists);
+      console.log("christmasLists", this.family);
     },
     toggleChristmasList: function (user) {
       axios.get(`/users/${user.id}/christmaslist`).then((response) => {
-        this.christmasLists[user.id] = response.data;
+        this.family[user.id] = response.data;
       });
     },
     getSecretSanta: function () {
@@ -210,10 +207,10 @@ export default {
         .get("/users/secretsanta")
         .then((response) => {
           this.secretSanta = response.data;
+          console.log("my secret santa", this.secretSanta);
         })
         .catch((error) => {
           console.log(error.response);
-          this.inputParams = {};
         });
     },
   },
