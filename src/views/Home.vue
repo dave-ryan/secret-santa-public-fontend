@@ -52,6 +52,12 @@
                       :id="`label-` + item.id"
                     >
                       {{ item.name }}
+                      <a
+                        v-if="item.link"
+                        :href="`//` + item.link"
+                        target="_blank"
+                        >link</a
+                      >
                     </label>
                     <span style="color: red">
                       (purchased by {{ item.purchaser.name }})</span
@@ -78,6 +84,12 @@
                       :id="`label-` + item.id"
                     >
                       {{ item.name }}
+                      <a
+                        v-if="item.link"
+                        :href="`//` + item.link"
+                        target="_blank"
+                        >link</a
+                      >
                     </label>
                     <span style="color: green"> Purchased by you!</span>
                   </div>
@@ -97,6 +109,12 @@
                       :id="`label-` + item.id"
                     >
                       {{ item.name }}
+                      <a
+                        v-if="item.link"
+                        :href="`//` + item.link"
+                        target="_blank"
+                        >link</a
+                      >
                     </label>
                   </div>
                 </div>
