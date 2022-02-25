@@ -13,6 +13,15 @@
               {{ user.name }}
             </button>
 
+            <i
+              class="bi bi-check-lg"
+              v-if="
+                this.christmasLists[`${user.id}`] &&
+                this.christmasLists[`${user.id}`].some(
+                  (item) => item.purchaser_id == this.user_id
+                )
+              "
+            ></i>
             <div
               class="collapse"
               aria-expanded="false"
@@ -33,7 +42,6 @@
                       :id="`checkbox-` + item.id"
                       disabled
                     />
-                    <i class="bi bi-x"></i>
 
                     <label
                       class="form-check-label"
@@ -121,6 +129,12 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+i {
+  color: green;
+}
+</style>
 
 <script>
 import axios from "axios";
