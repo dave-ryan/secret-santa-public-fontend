@@ -33,9 +33,7 @@
               >
 
               <div v-for="item in user.wishedgifts" :key="item.id">
-                <div
-                  v-if="item.purchaser_id && item.purchaser_id != this.user_id"
-                >
+                <div v-if="item.purchaser && item.purchaser_id != this.user_id">
                   <div class="form-check form-check-inline">
                     <input
                       class="form-check-input"
@@ -207,6 +205,7 @@ export default {
         .get("/users")
         .then((response) => {
           this.family = response.data;
+          console.log("response", response.data);
           console.log("family data: ", this.family);
           console.log("test", this.family[2], this.family[2].wishedgifts);
         })
