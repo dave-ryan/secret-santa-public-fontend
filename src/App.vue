@@ -22,9 +22,13 @@
           <li>
             <router-link class="nav-link" to="/my-list">My List</router-link>
           </li>
+          <li>
+            <span class="nav-link disabled">
+              Logged in as {{ user_name }}
+            </span>
+          </li>
         </ul>
       </div>
-      <span class="nav-link disabled"> Logged in as {{ user_name }} </span>
       <span class="nav-item">
         <router-link class="nav-link" to="" @click="logOut()"
           >Log Out</router-link
