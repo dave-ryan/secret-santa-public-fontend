@@ -25,14 +25,17 @@
             <td>
               <button
                 type="button"
-                class="btn btn-outline-success"
+                class="btn btn-outline-success p-1 m-1"
                 data-bs-toggle="modal"
                 data-bs-target="#editModal"
                 @click="editItem(item)"
               >
                 Edit
               </button>
-              <button class="btn btn-outline-danger" @click="deleteItem(item)">
+              <button
+                class="btn btn-outline-danger p-1 m-1"
+                @click="deleteItem(item)"
+              >
                 Delete
               </button>
             </td>
