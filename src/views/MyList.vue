@@ -23,7 +23,13 @@
               }}</a>
             </td>
             <td>
-              <button class="btn btn-outline-success" @click="editItem(item)">
+              <button
+                type="button"
+                class="btn btn-outline-success"
+                data-bs-toggle="modal"
+                data-bs-target="#editModal"
+                @click="editItem(item)"
+              >
                 Edit
               </button>
               <button class="btn btn-outline-danger" @click="deleteItem(item)">
@@ -60,6 +66,78 @@
         Add this to your list
       </button>
     </form>
+
+    <!-- Edit Modal -->
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      aria-labelledby="editModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form
+            @submit.prevent="updateItem"
+            id="editingItemForm"
+            class="mt-5 mb-4"
+            novalidate
+          >
+            <div class="modal-header">
+              <h3 class="modal-title" id="editModalLabel">
+                Editing {{ editingItem.name }}
+              </h3>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="input-group mb-3">
+                <span class="input-group-text">Name/description of item</span>
+                <input
+                  type="text"
+                  v-model="editingItem.name"
+                  class="form-control"
+                  required
+                />
+                <div class="invalid-feedback">
+                  What do you want for Christmas?
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">
+                  Online shopping link (optional)
+                </span>
+                <input
+                  type="text"
+                  v-model="editingItem.link"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn btn-success"
+                data-bs-dismiss="modal"
+              >
+                Save changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -70,6 +148,7 @@ export default {
     return {
       myList: [],
       newItem: {},
+      editingItem: {},
     };
   },
   computed: {
@@ -96,7 +175,23 @@ export default {
         });
     },
     editItem: function (item) {
-      console.log(item);
+      this.editingItem.name = item.name;
+      this.editingItem.link = item.link;
+      this.editingItem.id = item.id;
+    },
+    updateItem: function () {
+      axios
+        .patch(`/wishedgifts/${this.editingItem.id}`, this.editingItem)
+        .then((response) => {
+          console.log(response);
+          var foundItem = this.myList.find(
+            (item) => item.id == this.editingItem.id
+          );
+          console.log("found item", foundItem);
+          console.log("editing item", this.editingItem);
+          foundItem.name = this.editingItem.name;
+          foundItem.link = this.editingItem.link;
+        });
     },
     deleteItem: function (item) {
       axios.delete(`/wishedgifts/${item.id}`).then((response) => {
