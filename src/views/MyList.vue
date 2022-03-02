@@ -78,7 +78,7 @@
       aria-labelledby="editModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
+      <div class="modal-dialog" id="editingModal">
         <div class="modal-content">
           <form
             @submit.prevent="updateItem"
@@ -129,11 +129,7 @@
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                class="btn btn-success"
-                data-bs-dismiss="modal"
-              >
+              <button type="submit" class="btn btn-success">
                 Save changes
               </button>
             </div>
@@ -183,18 +179,22 @@ export default {
       this.editingItem.id = item.id;
     },
     updateItem: function () {
-      axios
-        .patch(`/wishedgifts/${this.editingItem.id}`, this.editingItem)
-        .then((response) => {
-          console.log(response);
-          var foundItem = this.myList.find(
-            (item) => item.id == this.editingItem.id
-          );
-          console.log("found item", foundItem);
-          console.log("editing item", this.editingItem);
-          foundItem.name = this.editingItem.name;
-          foundItem.link = this.editingItem.link;
-        });
+      document.getElementById("editingItemForm").classList.add("was-validated");
+      if (this.checkForms(this.editingItem)) {
+        axios
+          .patch(`/wishedgifts/${this.editingItem.id}`, this.editingItem)
+          .then((response) => {
+            console.log(response);
+            var foundItem = this.myList.find(
+              (item) => item.id == this.editingItem.id
+            );
+
+            foundItem.name = this.editingItem.name;
+            foundItem.link = this.editingItem.link;
+          });
+      } else {
+        console.log("problem!");
+      }
     },
     deleteItem: function (item) {
       axios.delete(`/wishedgifts/${item.id}`).then((response) => {
@@ -204,7 +204,7 @@ export default {
     },
     createItem: function () {
       document.getElementById("newItemForm").classList.add("was-validated");
-      if (this.checkForms()) {
+      if (this.checkForms(this.newItem)) {
         axios.post("/wishedgifts", this.newItem).then((response) => {
           this.myList.push(response.data);
           this.newItem = {};
@@ -221,8 +221,8 @@ export default {
         }, 400);
       }
     },
-    checkForms: function () {
-      if (this.newItem["name"] && this.newItem["name"].length > 0) {
+    checkForms: function (input) {
+      if (input["name"] && input["name"].length > 0) {
         return true;
       } else {
         return false;
