@@ -167,7 +167,6 @@ export default {
   },
   created: function () {
     this.getUsers();
-    this.getSecretSanta();
   },
   methods: {
     toggleCheckBox: function (item) {
@@ -211,8 +210,11 @@ export default {
         })
         .catch((error) => {
           console.log(error.response);
+          if (error.response.status === 401) {
+            this.$root.logOut();
+          }
         });
-      console.log("christmasLists", this.family);
+      this.getSecretSanta();
     },
     toggleChristmasList: function (user) {
       axios.get(`/users/${user.id}/christmaslist`).then((response) => {

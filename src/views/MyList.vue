@@ -170,7 +170,10 @@ export default {
           this.myList = response.data;
         })
         .catch((errors) => {
-          console.log(errors);
+          console.log("my wished gifts", errors.response);
+          if (errors.response.status === 401) {
+            this.$root.logOut();
+          }
         });
     },
     editItem: function (item) {
