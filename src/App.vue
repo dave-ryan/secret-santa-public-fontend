@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" v-if="loginStatus">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark" v-if="loginStatus">
     <div class="container-fluid">
       <a href="#" class="navbar-brand">Griffith</a>
       <button
@@ -74,6 +74,9 @@ export default {
     logOut: function () {
       delete axios.defaults.headers.common["Authorization"];
       localStorage.removeItem("jwt");
+      localStorage.removeItem("user_id");
+      localStorage.removeItem("user_name");
+      localStorage.removeItem("family_id");
       this.$router.push("/login");
       this.loginStatus = false;
     },

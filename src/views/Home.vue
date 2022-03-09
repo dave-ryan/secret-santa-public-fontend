@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12">
         Your family:
-        <div class="row mt-3" v-for="user in family" :key="user.id">
+        <div class="row mt-3" v-for="user in family.users" :key="user.id">
           <div class="col-12-">
             <button
               class="btn btn-outline-success"
@@ -199,17 +199,15 @@ export default {
       }
     },
     getUsers: function () {
-      this.user_id = localStorage.getItem("user_id");
+      this.user_id = localStorage.user_id;
       axios
-        .get("/users")
+        .get(`/families/${localStorage.family_id}`)
         .then((response) => {
+          console.log("family ping response", response.data);
           this.family = response.data;
-          console.log("response", response.data);
-          console.log("family data: ", this.family);
-          console.log("test", this.family[2], this.family[2].wishedgifts);
         })
         .catch((error) => {
-          console.log(error.response);
+          console.log("errors", error.response);
           if (error.response.status === 401) {
             this.$root.logOut();
           }
@@ -226,10 +224,10 @@ export default {
         .get("/users/secretsanta")
         .then((response) => {
           this.secretSanta = response.data;
-          console.log("my secret santa", this.secretSanta);
+          // console.log("my secret santa", this.secretSanta);
         })
         .catch((error) => {
-          console.log(error.response);
+          console.log("errors", error.response);
         });
     },
   },
