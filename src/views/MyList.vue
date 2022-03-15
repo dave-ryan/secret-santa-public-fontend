@@ -34,7 +34,9 @@
               </button>
               <button
                 class="btn btn-outline-danger p-1 m-1"
-                @click="deleteItem(item)"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal"
+                @click="deletingItem = item"
               >
                 Delete
               </button>
@@ -88,7 +90,7 @@
           >
             <div class="modal-header">
               <h3 class="modal-title" id="editModalLabel">
-                Editing {{ editingItem.name }}
+                Editing: {{ editingItem.name }}
               </h3>
               <button
                 type="button"
@@ -151,8 +153,63 @@
         </div>
       </div>
     </div>
+
+    <!-- Delete Modal -->
+
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <i class="bi bi-exclamation-diamond danger text-danger"></i>
+            <h2 class="text-danger" id="warning">
+              &nbsp; <u>WARNING!</u> &nbsp;
+            </h2>
+            <i class="bi bi-exclamation-diamond danger text-danger"></i>
+
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            Are you sure you want to delete "{{ deletingItem.name }}" from your
+            wishlist?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+              @click="deleteItem(deletingItem)"
+            >
+              Delete the item
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
+<style scoped>
+i {
+  font-size: 1.8em;
+}
+#warning {
+  text-shadow: 1px 1px black;
+}
+</style>
 
 <script>
 import axios from "axios";
@@ -162,6 +219,7 @@ export default {
       myList: [],
       newItem: {},
       editingItem: {},
+      deletingItem: {},
     };
   },
   computed: {
