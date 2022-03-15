@@ -7,7 +7,7 @@
       <div v-if="loaded">
         <div class="row">
           <div class="col-12">
-            Your family:
+            <h3>Your family</h3>
             <div class="row mt-3" v-for="user in family" :key="user.id">
               <div class="col-12-">
                 <button
@@ -129,7 +129,7 @@
         <div class="row" v-if="secretSanta">
           <div class="col-12">
             <hr />
-            <div class="mt-3 mb-4">Your secret santa:</div>
+            <h3 class="mt-3 mb-4">Your secret santa</h3>
             <button
               class="btn btn-outline-success"
               data-bs-toggle="collapse"
