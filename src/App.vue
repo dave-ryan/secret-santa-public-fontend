@@ -1,5 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark" v-if="user_name">
+  <nav
+    class="navbar navbar-expand-sm navbar-dark bg-dark"
+    v-if="user_name"
+    id="navbar"
+  >
     <div class="container-fluid">
       <a href="#" class="navbar-brand">Griffith</a>
       <button
@@ -42,6 +46,11 @@
 <style>
 .container {
   text-align: center;
+}
+#navbar {
+  position: fixed;
+  top: 0px;
+  width: 100%;
 }
 </style>
 
