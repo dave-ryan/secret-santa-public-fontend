@@ -22,7 +22,7 @@
                   v-if="
                     user.wishedgifts &&
                     user.wishedgifts.some(
-                      (item) => item.purchaser_id == this.user_id
+                      (item) => item.purchaser_id == user_id
                     )
                   "
                 ></i>
@@ -36,9 +36,7 @@
                     them! :)</span
                   >
                   <div v-for="item in user.wishedgifts" :key="item.id">
-                    <div
-                      v-if="item.purchaser && item.purchaser_id != this.user_id"
-                    >
+                    <div v-if="item.purchaser && item.purchaser_id != user_id">
                       <div class="form-check form-check-inline">
                         <input
                           class="form-check-input"
@@ -68,7 +66,7 @@
                     </div>
                     <div
                       v-else-if="
-                        item.purchaser_id && item.purchaser_id == this.user_id
+                        item.purchaser_id && item.purchaser_id == user_id
                       "
                     >
                       <div class="form-check form-check-inline">
@@ -143,7 +141,7 @@
                 :)</span
               >
               <div v-for="item in secretSanta.wishedgifts" :key="item.id">
-                <div v-if="item.purchaser && item.purchaser_id != this.user_id">
+                <div v-if="item.purchaser && item.purchaser_id != user_id">
                   <div class="form-check form-check-inline">
                     <input
                       class="form-check-input"
@@ -172,9 +170,7 @@
                   </div>
                 </div>
                 <div
-                  v-else-if="
-                    item.purchaser_id && item.purchaser_id == this.user_id
-                  "
+                  v-else-if="item.purchaser_id && item.purchaser_id == user_id"
                 >
                   <div class="form-check form-check-inline">
                     <input
@@ -251,9 +247,7 @@ export default {
       loaded: false,
     };
   },
-  props: {
-    user_id: Number,
-  },
+  props: ["user_id"],
   created: function () {
     this.getUsers();
   },

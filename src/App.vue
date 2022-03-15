@@ -40,7 +40,7 @@
       </span>
     </div>
   </nav>
-  <router-view @login_change="loginUpdate"></router-view>
+  <router-view @login_change="loginUpdate" :user_id="user_id"></router-view>
 </template>
 
 <style>
@@ -71,9 +71,11 @@ export default {
   },
 
   created: function () {
+    console.log("running script");
     if (localStorage.jwt && localStorage.user_name && localStorage.user_id) {
       this.user_name = localStorage.user_name;
       this.user_id = localStorage.user_id;
+      console.log("user_id is ", this.user_id);
     } else {
       this.$router.push("/login");
     }
