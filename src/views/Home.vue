@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-5">
+  <div class="container" id="home">
     <div class="row">
       <div class="col-12">
         Your family:
@@ -222,6 +222,9 @@
 <style scoped>
 i {
   color: green;
+}
+#home {
+  padding-top: 70px;
 }
 </style>
 

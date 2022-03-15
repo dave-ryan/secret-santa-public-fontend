@@ -54,9 +54,6 @@
 </template>
 
 <style scoped>
-.container {
-  text-align: center;
-}
 .errors {
   color: red;
 }

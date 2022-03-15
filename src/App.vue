@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="navbar navbar-expand-sm navbar-dark bg-dark"
+    class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark"
     v-if="user_name"
     id="navbar"
   >
@@ -46,11 +46,6 @@
 <style>
 .container {
   text-align: center;
-}
-#navbar {
-  position: fixed;
-  top: 0px;
-  width: 100%;
 }
 </style>
 
