@@ -129,7 +129,21 @@
               >
                 Cancel
               </button>
-              <button type="submit" class="btn btn-success">
+
+              <button
+                type="submit"
+                class="btn btn-success disabled"
+                data-bs-dismiss="modal"
+                v-if="!editingItem.name"
+              >
+                Save changes
+              </button>
+              <button
+                type="submit"
+                class="btn btn-success"
+                data-bs-dismiss="modal"
+                v-if="editingItem.name"
+              >
                 Save changes
               </button>
             </div>
