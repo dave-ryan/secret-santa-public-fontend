@@ -233,8 +233,10 @@ export default {
       family: [],
       secretSanta: null,
       christmasLists: {},
-      user_id: null,
     };
+  },
+  props: {
+    user_id: Number,
   },
   created: function () {
     this.getUsers();
@@ -270,7 +272,6 @@ export default {
       }
     },
     getUsers: function () {
-      this.user_id = localStorage.user_id;
       axios
         .get(`/families/${localStorage.family_id}`)
         .then((response) => {
