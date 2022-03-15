@@ -23,7 +23,7 @@
 
           <div class="row g-3 align-items-center mb-2">
             <div class="col-auto">
-              <label class="form-label" for="password-input">Pasword</label>
+              <label class="form-label" for="password-input">Password</label>
             </div>
             <div class="col-auto">
               <input
@@ -91,7 +91,7 @@ export default {
             localStorage.setItem("user_name", response.data.user_name);
             localStorage.setItem("user_id", response.data.user_id);
             localStorage.setItem("family_id", response.data.family_id);
-            this.$emit("updateLoginStatus", true);
+            this.$emit("login_change", response.data.user_name);
             this.$router.push("/");
           })
           .catch((errors) => {

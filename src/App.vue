@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark" v-if="loginStatus">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark" v-if="user_name">
     <div class="container-fluid">
       <a href="#" class="navbar-brand">Griffith</a>
       <button
@@ -36,7 +36,7 @@
       </span>
     </div>
   </nav>
-  <router-view @updateLoginStatus="updateLogin"></router-view>
+  <router-view @login_change="loginUpdate"></router-view>
 </template>
 
 <style>
@@ -50,38 +50,31 @@ import axios from "axios";
 export default {
   data() {
     return {
-      loginStatus: false,
-      user_name: "...",
       user_id: null,
+      user_name: null,
     };
   },
+
   created: function () {
-    if (localStorage.getItem("jwt")) {
-      this.loginStatus = true;
-      console.log("status is true");
-    } else {
-      this.loginStatus = false;
-      console.log("status is false");
-      this.$router.push("/login");
-    }
-    if (localStorage.user_id && localStorage.user_name) {
+    if (localStorage.jwt && localStorage.user_name && localStorage.user_id) {
       this.user_name = localStorage.user_name;
       this.user_id = localStorage.user_id;
-      console.log("santa", this.user_name, this.user_id);
+    } else {
+      this.$router.push("/login");
     }
   },
   methods: {
+    loginUpdate: function (username) {
+      this.user_name = username;
+    },
     logOut: function () {
       delete axios.defaults.headers.common["Authorization"];
       localStorage.removeItem("jwt");
       localStorage.removeItem("user_id");
       localStorage.removeItem("user_name");
       localStorage.removeItem("family_id");
+      this.user_name = null;
       this.$router.push("/login");
-      this.loginStatus = false;
-    },
-    updateLogin: function (value) {
-      this.loginStatus = value;
     },
   },
 };
