@@ -46,6 +46,17 @@
 <style>
 .container {
   text-align: center;
+  padding-top: 70px;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: all 1s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateY(25px);
+  opacity: 0;
 }
 </style>
 

@@ -1,204 +1,215 @@
 <template>
   <div class="container">
-    <div class="mb-5">
-      <h2 class="mt-2 mb-5">Your Christmas List</h2>
-
-      <table class="table table-striped table-responsive">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Wished gift</th>
-            <th scope="col">Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in myList" :key="item.id">
-            <th scope="row">{{ index + 1 }}</th>
-            <td class="text-truncate" style="max-width: 150px">
-              {{ item.name }}
-            </td>
-            <td class="text-truncate" style="max-width: 150px">
-              <a :href="`//` + item.link" alt="" target="_blank">{{
-                item.link
-              }}</a>
-            </td>
-            <td>
-              <button
-                type="button"
-                class="btn btn-outline-success p-1 m-1"
-                data-bs-toggle="modal"
-                data-bs-target="#editModal"
-                @click="editItem(item)"
-              >
-                Edit
-              </button>
-              <button
-                class="btn btn-outline-danger p-1 m-1"
-                data-bs-toggle="modal"
-                data-bs-target="#deleteModal"
-                @click="deletingItem = item"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div v-if="!loaded">
+      <img src="../assets/images/loading.gif" alt="" />
     </div>
-    <hr />
-    <form
-      @submit.prevent="createItem"
-      id="newItemForm"
-      class="mt-5 mb-4"
-      novalidate
-    >
-      <h5 class="mb-3">New item for your Christmas List:</h5>
-      <div class="input-group mb-3">
-        <span class="input-group-text">Name/description of item</span>
-        <input
-          type="text"
-          v-model="newItem.name"
-          class="form-control"
-          required
-        />
-        <div class="invalid-feedback">What do you want for Christmas?</div>
-      </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text"> Online shopping link (optional) </span>
-        <input type="text" v-model="newItem.link" class="form-control" />
-      </div>
-      <button class="btn btn-success" type="submit">
-        Add this to your list
-      </button>
-    </form>
+    <transition>
+      <div v-if="loaded">
+        <div class="mb-5">
+          <h2 class="mt-2 mb-5">Your Christmas List</h2>
 
-    <!-- Edit Modal -->
-    <div
-      class="modal fade"
-      id="editModal"
-      tabindex="-1"
-      aria-labelledby="editModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" id="editingModal">
-        <div class="modal-content">
-          <form
-            @submit.prevent="updateItem"
-            id="editingItemForm"
-            class="mt-5 mb-4"
-            novalidate
-          >
-            <div class="modal-header">
-              <h3 class="modal-title" id="editModalLabel">
-                Editing: {{ editingItem.name }}
-              </h3>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div class="input-group mb-3">
-                <span class="input-group-text">Name/description of item</span>
-                <input
-                  type="text"
-                  v-model="editingItem.name"
-                  class="form-control"
-                  required
-                />
-                <div class="invalid-feedback">
-                  What do you want for Christmas?
+          <table class="table table-striped table-responsive">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Wished gift</th>
+                <th scope="col">Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in myList" :key="item.id">
+                <th scope="row">{{ index + 1 }}</th>
+                <td class="text-truncate" style="max-width: 150px">
+                  {{ item.name }}
+                </td>
+                <td class="text-truncate" style="max-width: 150px">
+                  <a :href="`//` + item.link" alt="" target="_blank">{{
+                    item.link
+                  }}</a>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-outline-success p-1 m-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal"
+                    @click="editItem(item)"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    class="btn btn-outline-danger p-1 m-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteModal"
+                    @click="deletingItem = item"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr />
+        <form
+          @submit.prevent="createItem"
+          id="newItemForm"
+          class="mt-5 mb-4"
+          novalidate
+        >
+          <h5 class="mb-3">New item for your Christmas List:</h5>
+          <div class="input-group mb-3">
+            <span class="input-group-text">Name/description of item</span>
+            <input
+              type="text"
+              v-model="newItem.name"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">What do you want for Christmas?</div>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              Online shopping link (optional)
+            </span>
+            <input type="text" v-model="newItem.link" class="form-control" />
+          </div>
+          <button class="btn btn-success" type="submit">
+            Add this to your list
+          </button>
+        </form>
+
+        <!-- Edit Modal -->
+        <div
+          class="modal fade"
+          id="editModal"
+          tabindex="-1"
+          aria-labelledby="editModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" id="editingModal">
+            <div class="modal-content">
+              <form
+                @submit.prevent="updateItem"
+                id="editingItemForm"
+                class="mt-5 mb-4"
+                novalidate
+              >
+                <div class="modal-header">
+                  <h3 class="modal-title" id="editModalLabel">
+                    Editing: {{ editingItem.name }}
+                  </h3>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
                 </div>
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">
-                  Online shopping link (optional)
-                </span>
-                <input
-                  type="text"
-                  v-model="editingItem.link"
-                  class="form-control"
-                />
-              </div>
+                <div class="modal-body">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"
+                      >Name/description of item</span
+                    >
+                    <input
+                      type="text"
+                      v-model="editingItem.name"
+                      class="form-control"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      What do you want for Christmas?
+                    </div>
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">
+                      Online shopping link (optional)
+                    </span>
+                    <input
+                      type="text"
+                      v-model="editingItem.link"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="submit"
+                    class="btn btn-success disabled"
+                    data-bs-dismiss="modal"
+                    v-if="!editingItem.name"
+                  >
+                    Save changes
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-success"
+                    data-bs-dismiss="modal"
+                    v-if="editingItem.name"
+                  >
+                    Save changes
+                  </button>
+                </div>
+              </form>
             </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cancel
-              </button>
-
-              <button
-                type="submit"
-                class="btn btn-success disabled"
-                data-bs-dismiss="modal"
-                v-if="!editingItem.name"
-              >
-                Save changes
-              </button>
-              <button
-                type="submit"
-                class="btn btn-success"
-                data-bs-dismiss="modal"
-                v-if="editingItem.name"
-              >
-                Save changes
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <!-- Delete Modal -->
-
-    <div class="modal fade" id="deleteModal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <i class="bi bi-exclamation-diamond danger text-danger"></i>
-            <h2 class="text-danger" id="warning">
-              &nbsp; <u>WARNING!</u> &nbsp;
-            </h2>
-            <i class="bi bi-exclamation-diamond danger text-danger"></i>
-
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-
-          <div class="modal-body">
-            Are you sure you want to delete "{{ deletingItem.name }}" from your
-            wishlist?
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              class="btn btn-danger"
-              data-bs-dismiss="modal"
-              @click="deleteItem(deletingItem)"
-            >
-              Delete the item
-            </button>
           </div>
         </div>
+
+        <!-- Delete Modal -->
+
+        <div class="modal fade" id="deleteModal" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <i class="bi bi-exclamation-diamond danger text-danger"></i>
+                <h2 class="text-danger" id="warning">
+                  &nbsp; <u>WARNING!</u> &nbsp;
+                </h2>
+                <i class="bi bi-exclamation-diamond danger text-danger"></i>
+
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+
+              <div class="modal-body">
+                Are you sure you want to delete "{{ deletingItem.name }}" from
+                your wishlist?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  @click="deleteItem(deletingItem)"
+                >
+                  Delete the item
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -220,6 +231,7 @@ export default {
       newItem: {},
       editingItem: {},
       deletingItem: {},
+      loaded: false,
     };
   },
   computed: {
@@ -239,6 +251,7 @@ export default {
       axios
         .get("/wishedgifts")
         .then((response) => {
+          this.loaded = true;
           this.myList = response.data;
         })
         .catch((errors) => {
