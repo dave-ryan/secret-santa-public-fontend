@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12">
         Your family:
-        <div class="row mt-3" v-for="user in family.users" :key="user.id">
+        <div class="row mt-3" v-for="user in family" :key="user.id">
           <div class="col-12-">
             <button
               class="btn btn-outline-success"
@@ -140,7 +140,78 @@
             :)</span
           >
           <div v-for="item in secretSanta.wishedgifts" :key="item.id">
-            {{ item.name }}
+            <div v-if="item.purchaser && item.purchaser_id != this.user_id">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  checked
+                  :id="`checkbox-` + item.id"
+                  disabled
+                />
+
+                <label
+                  class="form-check-label"
+                  :for="`checkbox-` + item.id"
+                  :id="`label-` + item.id"
+                >
+                  {{ item.name }}
+                  <a v-if="item.link" :href="`//` + item.link" target="_blank"
+                    >link</a
+                  >
+                </label>
+                <span style="color: red">
+                  (purchased by {{ item.purchaser.name }})</span
+                >
+              </div>
+            </div>
+            <div
+              v-else-if="item.purchaser_id && item.purchaser_id == this.user_id"
+            >
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  checked
+                  @click="toggleCheckBox(item)"
+                  :id="`checkbox-` + item.id"
+                />
+                <label
+                  class="form-check-label"
+                  :for="`checkbox-` + item.id"
+                  :id="`label-` + item.id"
+                >
+                  {{ item.name }}
+                  <a v-if="item.link" :href="`//` + item.link" target="_blank"
+                    >link</a
+                  >
+                </label>
+                <span style="color: green"> Purchased by you!</span>
+              </div>
+            </div>
+            <div v-else>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  @click="toggleCheckBox(item)"
+                  :id="`checkbox-` + item.id"
+                />
+                <label
+                  class="form-check-label"
+                  :for="`checkbox-` + item.id"
+                  :id="`label-` + item.id"
+                >
+                  {{ item.name }}
+                  <a v-if="item.link" :href="`//` + item.link" target="_blank"
+                    >link</a
+                  >
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -203,11 +274,14 @@ export default {
       axios
         .get(`/families/${localStorage.family_id}`)
         .then((response) => {
-          console.log("family ping response", response.data);
-          this.family = response.data;
+          // console.log("family ping response", response.data);
+          var my_id = localStorage.user_id;
+          this.family = response.data.users.filter(function (user) {
+            return user.id != my_id;
+          });
         })
         .catch((error) => {
-          console.log("errors", error.response);
+          console.log("errors", error, error.response);
           if (error.response.status === 401) {
             this.$root.logOut();
           }
