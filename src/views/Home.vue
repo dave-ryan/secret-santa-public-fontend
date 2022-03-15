@@ -123,7 +123,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" v-if="secretSanta">
       <div class="col-12">
         <hr />
         <div class="mt-3 mb-4">Your secret santa:</div>
@@ -160,7 +160,7 @@ export default {
   data: function () {
     return {
       family: [],
-      secretSanta: { wishedgifts: [] },
+      secretSanta: null,
       christmasLists: {},
       user_id: null,
     };
@@ -224,7 +224,7 @@ export default {
         .get("/users/secretsanta")
         .then((response) => {
           this.secretSanta = response.data;
-          // console.log("my secret santa", this.secretSanta);
+          console.log("my secret santa", this.secretSanta);
         })
         .catch((error) => {
           console.log("errors", error.response);
