@@ -18,7 +18,7 @@
                   {{ user.name }}
                 </button>
                 <i
-                  class="bi bi-check-lg"
+                  class="bi bi-check-lg text-success"
                   v-if="
                     user.wishedgifts &&
                     user.wishedgifts.some(
@@ -59,9 +59,9 @@
                             >link</a
                           >
                         </label>
-                        <span style="color: red">
-                          (purchased by {{ item.purchaser.name }})</span
-                        >
+                        <span class="text-danger">
+                          (purchased by {{ item.purchaser.name }})
+                        </span>
                       </div>
                     </div>
                     <div
@@ -91,7 +91,7 @@
                             >link</a
                           >
                         </label>
-                        <span style="color: green"> Purchased by you!</span>
+                        <span class="text-success"> Purchased by you!</span>
                       </div>
                     </div>
                     <div v-else>
@@ -164,7 +164,7 @@
                         >link</a
                       >
                     </label>
-                    <span style="color: red">
+                    <span class="text-danger">
                       (purchased by {{ item.purchaser.name }})</span
                     >
                   </div>
@@ -194,7 +194,7 @@
                         >link</a
                       >
                     </label>
-                    <span style="color: green"> Purchased by you!</span>
+                    <span class="text-success"> Purchased by you!</span>
                   </div>
                 </div>
                 <div v-else>
@@ -233,9 +233,6 @@
 <style scoped>
 .container {
   padding-top: 70px;
-}
-i {
-  color: green;
 }
 </style>
 

@@ -19,10 +19,10 @@
             <tbody>
               <tr v-for="(item, index) in myList" :key="item.id">
                 <th scope="row">{{ index + 1 }}</th>
-                <td class="text-truncate" style="max-width: 150px">
+                <td class="text-truncate">
                   {{ item.name }}
                 </td>
-                <td class="text-truncate" style="max-width: 150px">
+                <td class="text-truncate">
                   <a :href="`//` + item.link" alt="" target="_blank">{{
                     item.link
                   }}</a>
@@ -324,6 +324,9 @@ i {
 }
 #newItem {
   max-width: 750px;
+}
+.text-truncate {
+  max-width: 150px;
 }
 </style>
 
