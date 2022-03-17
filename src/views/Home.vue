@@ -254,31 +254,20 @@ export default {
   methods: {
     toggleCheckBox: function (item) {
       if (item.purchaser_id) {
-        console.log("unchecked item, no longer purchasing it");
         item.purchaser_id = null;
-
+        item.purchaser = null;
         axios
           .patch(`/wishedgifts/${item.id}`, { purchaser_id: null })
-          .then((response) => {
-            console.log("response to removing purchaser", response);
+          .catch((error) => {
+            console.log("errors:", error);
           });
-        document
-          .getElementById(`label-${item.id}`)
-          .classList.remove("text-decoration-line-through");
-
-        console.log(item);
       } else {
-        console.log("checked item, it should be crossed off");
         item.purchaser_id = this.user_id;
-
         axios
           .patch(`/wishedgifts/${item.id}`, { purchaser_id: this.user_id })
-          .then((response) => {
-            console.log("response to removing purchaser", response);
+          .catch((error) => {
+            console.log("errors:", error);
           });
-        document
-          .getElementById(`label-${item.id}`)
-          .classList.add("text-decoration-line-through");
       }
     },
     getUsers: function () {
