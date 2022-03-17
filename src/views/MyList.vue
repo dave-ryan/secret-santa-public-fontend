@@ -311,7 +311,7 @@
 
 <style scoped>
 .container {
-  padding-top: 70px;
+  padding-top: 80px;
 }
 i {
   font-size: 1.8em;

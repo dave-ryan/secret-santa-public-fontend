@@ -237,7 +237,7 @@
 
 <style scoped>
 .container {
-  padding-top: 70px;
+  padding-top: 80px;
 }
 #secret {
   padding-top: 600px;
