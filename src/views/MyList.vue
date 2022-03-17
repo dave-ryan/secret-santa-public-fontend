@@ -235,7 +235,6 @@
           <div class="modal-dialog modal-xl">
             <div class="modal-content">
               <div class="modal-header">
-                <h3>Batch add to your wishlist:</h3>
                 <button
                   type="button"
                   class="btn-close"
@@ -247,14 +246,20 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col mb-3">
-                    Add things one line at a time, and if you have links, make
-                    sure they line up. See the example below..
+                    <h5>Add things one line at a time.</h5>
+
+                    <p>
+                      (If you have links, make sure they line up. See the
+                      example below..)
+                    </p>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-6">
                     <div class="input">
-                      <label for="floatingTextarea">Wished for:</label>
+                      <label for="floatingTextarea" class="fw-bold"
+                        >Wished for:</label
+                      >
                       <textarea
                         class="form-control batch"
                         placeholder="Socks&#10;Throw pillows&#10;Any Marvel movie on Bluray"
@@ -265,7 +270,9 @@
                   </div>
                   <div class="col-6">
                     <div class="input">
-                      <label for="floatingTextarea">Links:</label>
+                      <label for="floatingTextarea" class="fw-bold"
+                        >Links:</label
+                      >
                       <textarea
                         class="form-control batch"
                         placeholder="amazon.com/socks&#10;&#10;www.google.com/marvel-blurays"
