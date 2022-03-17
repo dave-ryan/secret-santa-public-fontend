@@ -426,6 +426,7 @@ export default {
           };
           axios.post("/wishedgifts", newItem).then((response) => {
             console.log("response = ", response.data);
+            newItem.id = response.data.id;
             this.myList.push(newItem);
           });
         }
