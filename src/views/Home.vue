@@ -245,10 +245,11 @@ export default {
       secretSanta: null,
       christmasLists: {},
       loaded: false,
+      user_id: null,
     };
   },
-  props: ["user_id"],
   created: function () {
+    this.user_id = localStorage.user_id;
     this.getUsers();
   },
   methods: {

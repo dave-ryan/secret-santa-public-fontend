@@ -40,7 +40,7 @@
       </span>
     </div>
   </nav>
-  <router-view @login_change="loginUpdate" :user_id="user_id"></router-view>
+  <router-view @login_change="loginUpdate"></router-view>
 </template>
 
 <style>
@@ -80,8 +80,8 @@ export default {
     }
   },
   methods: {
-    loginUpdate: function (username) {
-      this.user_name = username;
+    loginUpdate: function (userName) {
+      this.user_name = userName;
     },
     logOut: function () {
       delete axios.defaults.headers.common["Authorization"];
