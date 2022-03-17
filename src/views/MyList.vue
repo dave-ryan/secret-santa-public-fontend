@@ -51,34 +51,54 @@
           </table>
         </div>
         <hr />
-        <form
-          @submit.prevent="createItem"
-          id="newItemForm"
-          class="mt-5 mb-4"
-          novalidate
+        <button
+          type="button"
+          class="btn btn-outline-success p-4"
+          data-bs-toggle="modal"
+          data-bs-target="#batchModal"
         >
-          <h5 class="mb-3">New item for your Christmas List:</h5>
-          <div class="input-group mb-3">
-            <span class="input-group-text">Name/description of item</span>
-            <input
-              type="text"
-              v-model="newItem.name"
-              class="form-control"
-              required
-            />
-            <div class="invalid-feedback">What do you want for Christmas?</div>
+          Add multiple items to your list at once
+        </button>
+        <hr />
+        <div class="row">
+          <div class="col"></div>
+          <div class="col-md-8 col-12">
+            <form
+              @submit.prevent="createItem"
+              id="newItemForm"
+              class="mt-5 mb-4"
+              novalidate
+            >
+              <h5 class="mb-3">New item for your Christmas List:</h5>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Name/description of item</span>
+                <input
+                  type="text"
+                  v-model="newItem.name"
+                  class="form-control"
+                  required
+                />
+                <div class="invalid-feedback">
+                  What do you want for Christmas?
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">
+                  Online shopping link (optional)
+                </span>
+                <input
+                  type="text"
+                  v-model="newItem.link"
+                  class="form-control"
+                />
+              </div>
+              <button class="btn btn-success" type="submit">
+                Add this to your list
+              </button>
+            </form>
           </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text">
-              Online shopping link (optional)
-            </span>
-            <input type="text" v-model="newItem.link" class="form-control" />
-          </div>
-          <button class="btn btn-success" type="submit">
-            Add this to your list
-          </button>
-        </form>
-
+          <div class="col"></div>
+        </div>
         <!-- Edit Modal -->
         <div
           class="modal fade"
@@ -208,6 +228,75 @@
             </div>
           </div>
         </div>
+
+        <!-- Batch add Modal -->
+
+        <div class="modal fade" id="batchModal" tabindex="-1">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3>Batch add to your wishlist:</h3>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col mb-3">
+                    Add things one line at a time, and if you have links, make
+                    sure they line up. See the example below..
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="input">
+                      <label for="floatingTextarea">Wished for:</label>
+                      <textarea
+                        class="form-control batch"
+                        placeholder="Socks&#10;Throw pillows&#10;Any Marvel movie on Bluray"
+                        id="floatingTextarea"
+                        v-model="batchItems"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="input">
+                      <label for="floatingTextarea">Links:</label>
+                      <textarea
+                        class="form-control batch"
+                        placeholder="amazon.com/socks&#10;&#10;www.google.com/marvel-blurays"
+                        id="floatingTextarea"
+                        v-model="batchLinks"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  class="btn btn-success"
+                  data-bs-dismiss="modal"
+                  @click="batchCreate"
+                >
+                  Add all items!
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </transition>
   </div>
@@ -219,6 +308,12 @@ i {
 }
 #warning {
   text-shadow: 1px 1px black;
+}
+.form-control.batch {
+  min-height: 50vh;
+}
+#newItem {
+  max-width: 750px;
 }
 </style>
 
@@ -232,6 +327,8 @@ export default {
       editingItem: {},
       deletingItem: {},
       loaded: false,
+      batchItems: "",
+      batchLinks: "",
     };
   },
   computed: {
@@ -308,6 +405,26 @@ export default {
           );
         }, 400);
       }
+    },
+    batchCreate: function () {
+      console.log("batch items", this.batchItems.split("\n"));
+      console.log("batch links", this.batchLinks.split("\n"));
+      var arrayOfItems = this.batchItems.split("\n");
+      var arrayOfLinks = this.batchLinks.split("\n");
+      for (let i = 0; i < arrayOfItems.length; i++) {
+        if (arrayOfItems[i] != "") {
+          let newItem = {
+            name: arrayOfItems[i],
+            link: arrayOfLinks[i],
+          };
+          axios.post("/wishedgifts", newItem).then((response) => {
+            console.log("response = ", response.data);
+            this.myList.push(newItem);
+          });
+        }
+      }
+      this.batchItems = "";
+      this.batchLinks = "";
     },
     checkForms: function (input) {
       if (input["name"] && input["name"].length > 0) {
