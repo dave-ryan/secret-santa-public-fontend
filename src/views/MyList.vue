@@ -310,6 +310,9 @@
 </template>
 
 <style scoped>
+.container {
+  padding-top: 70px;
+}
 i {
   font-size: 1.8em;
 }

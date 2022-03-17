@@ -231,6 +231,9 @@
 </template>
 
 <style scoped>
+.container {
+  padding-top: 70px;
+}
 i {
   color: green;
 }

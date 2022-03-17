@@ -46,7 +46,6 @@
 <style>
 .container {
   text-align: center;
-  padding-top: 70px;
 }
 .v-enter-active,
 .v-leave-active {
