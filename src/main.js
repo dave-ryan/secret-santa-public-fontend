@@ -7,7 +7,9 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap";
 
 axios.defaults.baseURL =
-  process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/";
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://grifith-api.herokuapp.com/";
 
 createApp(App).use(router).mount("#app");
 
