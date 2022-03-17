@@ -225,6 +225,11 @@
             </div>
           </div>
         </div>
+        <div id="secret" v-if="user_id == `1`">
+          <button class="btn btn-outline-danger" @click="secretSantaShuffle">
+            Click to shuffle the secret santas around
+          </button>
+        </div>
       </div>
     </transition>
   </div>
@@ -233,6 +238,9 @@
 <style scoped>
 .container {
   padding-top: 70px;
+}
+#secret {
+  padding-top: 600px;
 }
 </style>
 
@@ -305,6 +313,15 @@ export default {
         .catch((error) => {
           console.log("errors", error.response);
         });
+    },
+    secretSantaShuffle: function () {
+      if (
+        confirm("ARE YOU SURE YOU WANT TO SHUFFLE EVERYONE'S SECRET SANTA?")
+      ) {
+        axios.post("/secret-santa-shuffle").then((response) => {
+          console.log(response.data);
+        });
+      }
     },
   },
 };
