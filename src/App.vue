@@ -5,7 +5,7 @@
     id="navbar"
   >
     <div class="container-fluid">
-      <a href="#" class="navbar-brand">Griffith</a>
+      <a href="#" class="navbar-brand">Secret Santa</a>
       <button
         class="navbar-toggler"
         type="button"

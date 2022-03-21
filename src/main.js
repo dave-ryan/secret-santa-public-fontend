@@ -9,7 +9,7 @@ import "bootstrap";
 axios.defaults.baseURL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "https://grifith-api.herokuapp.com/";
+    : "https://secret-santa-public-api.herokuapp.com/";
 
 createApp(App).use(router).mount("#app");
 

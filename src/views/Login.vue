@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center vh-100 justify-content-center">
       <form @submit.prevent="logIn" id="loginForm" novalidate>
         <fieldset id="loginFieldset">
-          <h2>Griffith</h2>
+          <h2>Secret Santa</h2>
 
           <div class="row g-3 align-items-center mb-2 mt-2">
             <div class="col-auto">

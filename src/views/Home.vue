@@ -225,11 +225,6 @@
             </div>
           </div>
         </div>
-        <div id="secret" v-if="user_id == `1`">
-          <button class="btn btn-outline-danger" @click="secretSantaShuffle">
-            Click to shuffle the secret santas around
-          </button>
-        </div>
       </div>
     </transition>
   </div>
@@ -238,9 +233,6 @@
 <style scoped>
 .container {
   padding-top: 80px;
-}
-#secret {
-  padding-top: 600px;
 }
 </style>
 
