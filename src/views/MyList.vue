@@ -6,6 +6,12 @@
     <transition>
       <div v-if="loaded">
         <div class="mb-5">
+          <div class="fw-light mb-5">
+            <p>
+              Here you can change your Christmas list: add, edit, or delete
+              items
+            </p>
+          </div>
           <h2 class="mt-2 mb-5">Your Christmas List</h2>
 
           <table class="table table-striped table-responsive">

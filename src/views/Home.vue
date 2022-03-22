@@ -7,7 +7,17 @@
       <div v-if="loaded">
         <div class="row">
           <div class="col-12">
+            <div class="fw-light mb-5">
+              <p>
+                You can see everyone's list, and who bought what. Of course
+                it'll still be a mystery for that person!
+                <br />
+                You can click on an item to declare that you'll buy that gift
+                for that person, and everyone else will be able to see that.
+              </p>
+            </div>
             <h3>Your family</h3>
+
             <div class="row mt-3" v-for="user in family" :key="user.id">
               <div class="col-12-">
                 <button
@@ -52,6 +62,7 @@
                           :id="`label-` + item.id"
                         >
                           {{ item.name }}
+                          <span v-if="item.link || item.purchaser_id"> - </span>
                           <a
                             v-if="item.link"
                             :href="`//` + item.link.replace(/^https?:\/\//, '')"
@@ -60,7 +71,7 @@
                           >
                         </label>
                         <span class="text-danger">
-                          (purchased by {{ item.purchaser.name }})
+                          purchased by {{ item.purchaser.name }}
                         </span>
                       </div>
                     </div>
@@ -84,6 +95,7 @@
                           :id="`label-` + item.id"
                         >
                           {{ item.name }}
+                          <span v-if="item.link || item.purchaser_id"> - </span>
                           <a
                             v-if="item.link"
                             :href="`//` + item.link.replace(/^https?:\/\//, '')"
@@ -109,6 +121,7 @@
                           :id="`label-` + item.id"
                         >
                           {{ item.name }}
+                          <span v-if="item.link || item.purchaser_id"> - </span>
                           <a
                             v-if="item.link"
                             :href="`//` + item.link.replace(/^https?:\/\//, '')"
@@ -124,7 +137,7 @@
             </div>
           </div>
         </div>
-        <div class="row" v-if="secretSanta">
+        <div class="row mb-5" v-if="secretSanta">
           <div class="col-12">
             <hr />
             <h3 class="mt-3 mb-4">Your secret santa</h3>
@@ -157,6 +170,7 @@
                       :id="`label-` + item.id"
                     >
                       {{ item.name }}
+                      <span v-if="item.link || item.purchaser_id"> - </span>
                       <a
                         v-if="item.link"
                         :href="`//` + item.link.replace(/^https?:\/\//, '')"
@@ -165,7 +179,7 @@
                       >
                     </label>
                     <span class="text-danger">
-                      (purchased by {{ item.purchaser.name }})</span
+                      purchased by {{ item.purchaser.name }}</span
                     >
                   </div>
                 </div>
@@ -187,6 +201,7 @@
                       :id="`label-` + item.id"
                     >
                       {{ item.name }}
+                      <span v-if="item.link || item.purchaser_id"> - </span>
                       <a
                         v-if="item.link"
                         :href="`//` + item.link.replace(/^https?:\/\//, '')"
@@ -212,6 +227,7 @@
                       :id="`label-` + item.id"
                     >
                       {{ item.name }}
+                      <span v-if="item.link || item.purchaser_id"> - </span>
                       <a
                         v-if="item.link"
                         :href="`//` + item.link.replace(/^https?:\/\//, '')"
