@@ -23,9 +23,13 @@
                   {{ item.name }}
                 </td>
                 <td class="text-truncate">
-                  <a :href="`//` + item.link" alt="" target="_blank">{{
-                    item.link
-                  }}</a>
+                  <a
+                    :href="`//` + item.link.replace(/^https?:\/\//, '')"
+                    alt=""
+                    target="_blank"
+                    v-if="item.link"
+                    >{{ item.link }}</a
+                  >
                 </td>
                 <td>
                   <button
